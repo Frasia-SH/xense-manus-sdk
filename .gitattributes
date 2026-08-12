@@ -1,0 +1,2 @@
+vendor/manus/lib/*.so* filter=lfs diff=lfs merge=lfs -text
+runtime/linux-x86_64/*.so* filter=lfs diff=lfs merge=lfs -text
