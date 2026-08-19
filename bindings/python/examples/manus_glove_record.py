@@ -37,8 +37,8 @@ import numpy as np
 import h5py
 
 HERE = Path(__file__).resolve().parent
-REPO_ROOT = HERE.parents[3]
-sys.path.insert(0, str(REPO_ROOT / "build/python"))
+MANUS_ROOT = HERE.parents[2]  # third_party/manussdk (repo root, where build/python lives)
+sys.path.insert(0, str(MANUS_ROOT / "build/python"))
 import manus_glove  # noqa: E402
 import manus_glove_rerun as viz  # noqa: E402  reuse calib paths + viz helpers
 
