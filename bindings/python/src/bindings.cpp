@@ -5,6 +5,8 @@
 #include <pybind11/stl.h>
 
 #include <cstring>
+#include <algorithm>
+#include <stdexcept>
 
 namespace py = pybind11;
 using namespace manus_glove;
@@ -59,6 +61,16 @@ PYBIND11_MODULE(manus_glove, m)
         .def("is_connected", &ManusGlove::IsConnected)
         .def("is_world_coordinates", &ManusGlove::IsWorldCoordinates)
         .def("get_glove_id", &ManusGlove::GetGloveId, py::arg("side"))
+        .def("vibrate_fingers",
+             [](ManusGlove& self, const std::string& side, const std::vector<float>& powers) {
+                 if (powers.size() != 5)
+                     throw std::invalid_argument("vibration powers must contain 5 values");
+                 std::array<float, 5> values{};
+                 std::copy(powers.begin(), powers.end(), values.begin());
+                 return self.VibrateFingers(side, values);
+             },
+             py::arg("side"), py::arg("powers"),
+             "Vibrate the five finger motors for one glove side. Powers are in [0, 1].")
         // Raw skeleton: per hand -> numpy (rows, 10) = pos(3)+quat wxyz(4)+scale(3)
         .def("get_raw_skeleton",
              [](ManusGlove& self, const std::string& side) {

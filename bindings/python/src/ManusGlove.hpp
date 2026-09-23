@@ -106,6 +106,11 @@ public:
     /// @brief Resolved glove id for a side, or 0 if not present yet.
     uint32_t GetGloveId(const std::string& p_Side);
 
+    /// @brief Vibrate selected finger motors of the glove for a side.
+    /// Powers are ordered Thumb, Index, Middle, Ring, Pinky and should be 0..1.
+    /// A zero power vector stops any active vibration.
+    int VibrateFingers(const std::string& p_Side, const std::array<float, 5>& p_Powers);
+
     /// @brief Write a .mcal calibration (bytes) to the glove of the given side.
     /// @return SetGloveCalibrationReturnCode (>=0). Returns -1 if not connected /
     ///         no glove for that side, -2 on SDK transport error.

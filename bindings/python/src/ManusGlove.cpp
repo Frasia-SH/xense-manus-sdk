@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <cctype>
 #include <cstring>
+#include <cmath>
 #include <iostream>
 #include <memory>
 #include <thread>
@@ -428,6 +429,20 @@ uint32_t ManusGlove::GloveIdForSide(int p_Side)
 uint32_t ManusGlove::GetGloveId(const std::string& p_Side)
 {
     return GloveIdForSide(SideFromString(p_Side));
+}
+
+int ManusGlove::VibrateFingers(const std::string& p_Side, const std::array<float, 5>& p_Powers)
+{
+    const uint32_t t_GloveId = GetGloveId(p_Side);
+    if (!m_Connected || t_GloveId == 0)
+        return -1;
+    for (float t_Power : p_Powers)
+    {
+        if (!std::isfinite(t_Power) || t_Power < 0.0f || t_Power > 1.0f)
+            return -3;
+    }
+    const SDKReturnCode t_Result = CoreSdk_VibrateFingersForGlove(t_GloveId, p_Powers.data());
+    return t_Result == SDKReturnCode::SDKReturnCode_Success ? 1 : -2;
 }
 
 // ------------------------------------------------------------------------------------------------

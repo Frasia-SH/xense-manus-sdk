@@ -14,6 +14,7 @@ The module exposes `manus_glove.ManusGlove` and `NodeInfo` objects.
 | `disconnect()` | `None` | Stop the SDK and clear cached state. |
 | `is_connected()` | `bool` | Current wrapper connection state. |
 | `get_glove_id(side)` | `int` | Glove id for `left` or `right`, or `0`. |
+| `vibrate_fingers(side, powers)` | `int` | Send one five-finger haptic command; powers are Thumb/Index/Middle/Ring/Pinky in `[0, 1]`. Returns `1` on success, `-1` when disconnected, `-2` on SDK transport failure, or `-3` for invalid powers. |
 | `get_raw_skeleton(side)` | `numpy.ndarray` | Latest `(N, 10)` pose array. |
 | `get_raw_skeleton_both()` | `dict` | Latest arrays for both sides. |
 | `get_ergonomics()` | `numpy.ndarray` | Merged `(40,)` ergonomics array. |
